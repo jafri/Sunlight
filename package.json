@@ -9,9 +9,22 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.13",
+    "element-ui": "^2.5.4",
+    "fullcalendar": "^3.10.0",
+    "fullcalendar-scheduler": "^1.9.4",
+    "material-icons": "^0.3.0",
+    "moment": "^2.24.0",
     "register-service-worker": "^1.5.2",
-    "vue": "^2.6.6",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue": "^2.6.7",
+    "vue-full-calendar": "^2.7.0",
     "vue-router": "^3.0.1",
+    "vue2-sidebar": "^0.0.17",
+    "vuesax": "^3.8.24",
+    "vuetify": "^1.5.3",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -27,6 +40,10 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "vue-cli-plugin-vuetify": "^0.4.6",
+    "vue-template-compiler": "^2.5.21",
+    "vuetify-loader": "^1.0.5"
   }
 }
