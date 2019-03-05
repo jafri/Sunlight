@@ -101,30 +101,34 @@ export default {
         title: 'Booked',
         date: '2019-02-26',
         time: '09:00',
-        duration: 45
+        duration: 45,
+        patientMetadata: 'NEED TO FILL'
       },
       {
         title: 'Booked',
         date: '2019-02-27',
         time: '14:00',
-        duration: 45
+        duration: 45,
+        patientMetadata: 'NEED TO FILL'
       },
       {
         title: 'Booked',
         date: '2019-02-27',
         time: '09:00',
-        duration: 45
+        duration: 45,
+        patientMetadata: 'NEED TO FILL'
       },
       {
         title: 'Doctor Day off',
-        date: '2019-02-28'
-      },
+        date: '2019-02-28',
+        patientMetadata: 'NEED TO FILL'
+      }
     ],
-    intervals: { 
-      first: 17, 
-      minutes: 30, 
-      count: 18, 
-      height: 30 
+    intervals: {
+      first: 17,
+      minutes: 30,
+      count: 18,
+      height: 30
     },
     eventSelected: null
   }),

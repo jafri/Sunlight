@@ -1,8 +1,13 @@
 <template>
   <div>
     <h1> Select Doctor by Department </h1>
+    <v-text-field
+      v-model="nameFilter"
+      label="Search doctor name"
+      required
+    ></v-text-field>
     <div
-      v-for="(department, i) in departments"
+      v-for="(department, i) in filteredDepartments"
       :key="i"
       style="padding-top: 15px;"
     >
@@ -10,7 +15,7 @@
         {{department.name}}
       </div>
 
-      <div 
+      <div
         v-for="(doctor, ii) in department.doctors"
         :key="ii"
         style="padding-right: 10px; display: inline-block;"
@@ -31,6 +36,7 @@ export default {
 
   data () {
     return {
+      nameFilter: '',
       departments: [
         {
           name: 'Cardiology',
@@ -45,6 +51,28 @@ export default {
           doctors: ['Cathy', 'Catherine']
         }
       ]
+    }
+  },
+
+  computed: {
+    filteredDepartments () {
+      let departments = []
+
+      for (let department of this.departments) {
+        let newDepartment = Object.assign({}, department)
+
+        if (this.nameFilter) {
+          newDepartment.doctors = newDepartment.doctors.filter(
+            doctor => doctor.toLowerCase().indexOf(this.nameFilter) !== -1
+          )
+        }
+
+        if (newDepartment.doctors.length) {
+          departments.push(newDepartment)
+        }
+      }
+
+      return departments
     }
   }
 }

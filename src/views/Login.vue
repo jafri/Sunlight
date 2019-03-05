@@ -30,28 +30,28 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      valid: true,
-      username: '',
-      usernameRules: [
-        v => !!v || 'Username is required',
-        v => (v && v.length <= 12) || 'Username must be less than 12 characters'
-      ],
-      password: ''
-    }),
+export default {
+  data: () => ({
+    valid: true,
+    username: '',
+    usernameRules: [
+      v => !!v || 'Username is required',
+      v => (v && v.length <= 12) || 'Username must be less than 12 characters'
+    ],
+    password: ''
+  }),
 
-    methods: {
-      login () {
-        if (this.$refs.form.validate()) {
-          if (this.username === 'admin' && this.password === 'admin') {
-            this.$store.commit('SET_USER', {
-              role: 'admin'
-            })
-            this.$router.push('/')
-          }
+  methods: {
+    login () {
+      if (this.$refs.form.validate()) {
+        if (this.username === 'admin' && this.password === 'admin') {
+          this.$store.commit('SET_USER', {
+            role: 'admin'
+          })
+          this.$router.push('/')
         }
       }
     }
   }
+}
 </script>
