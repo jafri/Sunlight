@@ -4,9 +4,9 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development (REPLACE WITH YOUR API URL)
+### Compiles and hot-reloads for development
 ```
-LOCAL_URL=http://localhost:8090/sunlight_api_war_exploded npm run serve
+npm run serve
 ```
 
 ### Compiles and minifies for production

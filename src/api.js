@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-const LOCAL_URL = process.env.API || 'http://localhost:8090/sunlight_api_war_exploded'
 const api = axios.create({
-  baseURL: LOCAL_URL + '/api'
+  baseURL: 'http://localhost:8084/com.ach_manager/api'
 })
 
 function queryParams (params) {
@@ -15,9 +14,9 @@ function queryParams (params) {
 }
 
 export function getSchedule (docId, endDate) {
-  return api.get(`${LOCAL_URL}/${docId}/${endDate}`)
+  return api.get(`${docId}/${endDate}`)
 }
 
 export function getAllDoctors (docId, endDate) {
-  return api.get(`${LOCAL_URL}/doctor/all`).then(result => result.data)
+  return api.get(`doctor/all`).then(result => result.data)
 }
