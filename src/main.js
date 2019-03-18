@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import './plugins/vuetify'
+import './plugins/api'
 import App from './layout'
 import router from './router'
 import store from './store'

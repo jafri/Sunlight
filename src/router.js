@@ -16,7 +16,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/calendar/:doctor',
+      path: '/calendar',
       name: 'calendar',
       props: true,
       component: Calendar

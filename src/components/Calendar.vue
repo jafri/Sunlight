@@ -14,6 +14,7 @@
           ref="calendar"
           color="primary"
           type="week"
+          v-model="start"
           :end="start"
           :first-interval="intervals.first"
           :interval-minutes="intervals.minutes"
@@ -64,12 +65,13 @@
       sm4
       xs12
       class="text-sm-left text-xs-center"
+      style="padding-top: 15px; float: right;"
     >
-      <v-btn @click="$refs.calendar.prev()">
+      <v-btn @click="lastWeek">
         <v-icon dark left>keyboard_arrow_left</v-icon>
         Prev
       </v-btn>
-      <v-btn @click="$refs.calendar.next()">
+      <v-btn @click="nextWeek">
         Next
         <v-icon right dark>keyboard_arrow_right</v-icon>
       </v-btn>
@@ -93,9 +95,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 
 export default {
-  props: ['doctor'],
+  props: ['doctor', 'id'],
   data: () => ({
     selectedDate: null,
     right: true,
@@ -103,28 +106,28 @@ export default {
     events: [
       {
         title: 'Booked',
-        date: '2019-02-26',
+        date: '2019-03-21',
         time: '09:00',
         duration: 45,
         patientMetadata: 'NEED TO FILL'
       },
       {
         title: 'Booked',
-        date: '2019-02-27',
+        date: '2019-03-22',
         time: '14:00',
         duration: 45,
         patientMetadata: 'NEED TO FILL'
       },
       {
         title: 'Booked',
-        date: '2019-02-27',
+        date: '2019-03-18',
         time: '09:00',
         duration: 45,
         patientMetadata: 'NEED TO FILL'
       },
       {
         title: 'Doctor Day off',
-        date: '2019-02-28',
+        date: '2019-03-19',
         patientMetadata: 'NEED TO FILL'
       }
     ],
@@ -148,9 +151,6 @@ export default {
       return map
     }
   },
-  mounted () {
-    this.$refs.calendar.next()
-  },
   methods: {
     selectEvent (event) {
       if (this.eventSelected === event) {
@@ -158,7 +158,26 @@ export default {
       } else {
         this.eventSelected = event
       }
+    },
+
+    async fetchData () {
+      const startTime = moment(this.start).format('YYYY-MM-DD HH:mm:ss')
+      const endTime = moment(this.start).add(7, 'd').format('YYYY-MM-DD HH:mm:ss')
+      const { schedule } = await this.$api.getDoctorSchedule(this.id, startTime, endTime)
+      console.log(schedule)
+    },
+
+    nextWeek () {
+      this.start = moment(this.start).add(7, 'd').toISOString().split('T')[0]
+    },
+
+    lastWeek () {
+      this.start = moment(this.start).subtract(7, 'd').toISOString().split('T')[0]
     }
+  },
+
+  created () {
+    this.fetchData()
   }
 }
 </script>

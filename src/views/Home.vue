@@ -20,7 +20,7 @@
         :key="ii"
         style="padding-right: 10px; display: inline-block;"
       >
-        <router-link :to="`/calendar/${doctor.name}`">
+        <router-link :to="{ name: 'calendar', params: { doctor: doctor.name, id: doctor.id } }">
           <v-btn color="info">
             {{doctor.name}}
           </v-btn>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import { getAllDoctors } from '../api'
 import _ from 'lodash'
 
 export default {
@@ -68,7 +67,7 @@ export default {
 
   methods: {
     async fetchData() {
-      let { doctors } = await getAllDoctors()
+      let { doctors } = await this.$api.getAllDoctors()
       this.departments = _.groupBy(doctors, (doctor) => doctor.department)
     }
   },
