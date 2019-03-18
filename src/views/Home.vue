@@ -7,22 +7,22 @@
       required
     ></v-text-field>
     <div
-      v-for="(department, i) in filteredDepartments"
+      v-for="([department, doctors], i) in filteredDepartments"
       :key="i"
       style="padding-top: 15px;"
     >
       <div>
-        {{department.name}}
+        {{department}}
       </div>
 
       <div
-        v-for="(doctor, ii) in department.doctors"
+        v-for="(doctor, ii) in doctors"
         :key="ii"
         style="padding-right: 10px; display: inline-block;"
       >
-        <router-link :to="`/calendar/${doctor}`">
+        <router-link :to="`/calendar/${doctor.name}`">
           <v-btn color="info">
-            {{doctor}}
+            {{doctor.name}}
           </v-btn>
         </router-link>
       </div>
@@ -31,49 +31,50 @@
 </template>
 
 <script>
+import { getAllDoctors } from '../api'
+import _ from 'lodash'
+
 export default {
   name: 'home',
 
   data () {
     return {
       nameFilter: '',
-      departments: [
-        {
-          name: 'Cardiology',
-          doctors: ['Andy', 'Alpha']
-        },
-        {
-          name: 'Surgery',
-          doctors: ['Bill', 'Bob', 'Bryan']
-        },
-        {
-          name: 'Orthopedics',
-          doctors: ['Cathy', 'Catherine']
-        }
-      ]
+      departments: {}
     }
   },
 
   computed: {
     filteredDepartments () {
-      let departments = []
+      let departments = {}
 
-      for (let department of this.departments) {
-        let newDepartment = Object.assign({}, department)
+      for (let [department, doctors] of Object.entries(this.departments)) {
+        let departmentDoctors = doctors
 
         if (this.nameFilter) {
-          newDepartment.doctors = newDepartment.doctors.filter(
-            doctor => doctor.toLowerCase().indexOf(this.nameFilter) !== -1
+          departmentDoctors = departmentDoctors.filter(
+            doctor => doctor.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1
           )
         }
 
-        if (newDepartment.doctors.length) {
-          departments.push(newDepartment)
+        if (departmentDoctors.length) {
+          departments[department] = departmentDoctors
         }
       }
 
-      return departments
+      return Object.entries(departments)
     }
+  },
+
+  methods: {
+    async fetchData() {
+      let { doctors } = await getAllDoctors()
+      this.departments = _.groupBy(doctors, (doctor) => doctor.department)
+    }
+  },
+
+  created () {
+    this.fetchData()
   }
 }
 </script>

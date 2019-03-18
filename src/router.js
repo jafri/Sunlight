@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Calendar from './views/Calendar.vue'
+import AddDoctorReceptionist from './views/AddDoctorReceptionist.vue'
 
 Vue.use(Router)
 
@@ -19,6 +20,11 @@ export default new Router({
       name: 'calendar',
       props: true,
       component: Calendar
+    },
+    {
+      path: '/add',
+      name: 'AddDoctorReceptionist',
+      component: AddDoctorReceptionist
     },
     {
       path: '/login',

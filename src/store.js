@@ -29,6 +29,10 @@ export default new Vuex.Store({
       return state.user.role === 'doctor'
     },
 
+    isReceptionist (state) {
+      return state.user.role === 'receptionist'
+    },
+
     isAnonymous (state) {
       return state.user.role === 'anonymous'
     }

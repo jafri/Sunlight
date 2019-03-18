@@ -20,6 +20,7 @@
           :interval-count="intervals.count"
           :interval-height="intervals.height"
           :weekdays="[1,2,3,4,5]"
+          @click:time="result => selectedDate = result"
         >
           <!-- the events at the top (all-day) -->
           <template
@@ -72,6 +73,8 @@
         Next
         <v-icon right dark>keyboard_arrow_right</v-icon>
       </v-btn>
+      <br>
+       {{ selectedDate }}
     </v-flex>
 
     <v-navigation-drawer
@@ -94,6 +97,7 @@ import { mapGetters } from 'vuex'
 export default {
   props: ['doctor'],
   data: () => ({
+    selectedDate: null,
     right: true,
     start: new Date().toISOString().split('T')[0],
     events: [
