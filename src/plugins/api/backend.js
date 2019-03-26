@@ -36,7 +36,7 @@ export default class API {
     return this.api.get(`editDoctorSchedule/add?Title=${title}&description=${description}&time=${time}&Duration=${duration}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
   }
 
-  removeAppointment (patientId, doctorId, time) {
+  cancelAppointment (patientId, doctorId, time) {
     return this.api.get(`editDoctorSchedule/add?time=${time}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
   }
 }

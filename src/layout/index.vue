@@ -26,18 +26,25 @@
         <v-list-tile-title>Search Doctors</v-list-tile-title>
       </v-list-tile>
 
-      <v-list-tile @click="$router.push('/calendar')">
+      <!-- <v-list-tile @click="$router.push('/calendar')">
         <v-list-tile-action>
           <v-icon>account_circle</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>Doctor Schedule</v-list-tile-title>
-      </v-list-tile>
+      </v-list-tile> -->
 
       <v-list-tile @click="$router.push('/login')" v-if="isAnonymous">
         <v-list-tile-action>
           <v-icon>account_circle</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>Login</v-list-tile-title>
+      </v-list-tile>
+
+      <v-list-tile @click="logout" v-if="!isAnonymous">
+        <v-list-tile-action>
+          <v-icon>account_circle</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-title>Logout</v-list-tile-title>
       </v-list-tile>
 
       <v-list-tile @click="$router.push('/add')" v-if="isAdmin">
@@ -49,31 +56,6 @@
     </v-list>
   </v-navigation-drawer>
 
-    <!-- <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      app
-    >
-      <v-list dense>
-        <v-list-tile>
-          <v-list-tile-content @click="$router.push('/')">
-            <v-list-tile-title>Sunlight Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content @click="$router.push('/calendar')">
-            <v-list-tile-title>Calendar</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content @click="$router.push('/login')">
-            <v-list-tile-title>Login</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer> -->
 
     <v-content>
       <v-container fluid fill-height>
@@ -99,7 +81,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   data: () => ({
@@ -116,6 +98,13 @@ export default {
       isAdmin: 'isAdmin'
     })
   },
+
+  methods: {
+    ...mapActions ({
+      logout: 'LOGOUT'
+    })
+  },
+
   props: {
     source: String
   }

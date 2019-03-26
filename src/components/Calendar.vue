@@ -3,10 +3,10 @@
     <v-flex>
       <h2 style="padding-bottom: 20px;">
         <v-btn class="info" @click="$router.push('/')" style="margin-left: 0px;">
-          Back to all
+          Back to all doctors
           <v-icon right dark>keyboard_arrow_left</v-icon>
         </v-btn>
-        Viewing Schedule for Doctor {{ doctor }}
+        Viewing Schedule for Dr. {{ doctor }}
       </h2>
 
       <v-sheet height="600">
@@ -21,7 +21,7 @@
           :interval-count="intervals.count"
           :interval-height="intervals.height"
           :weekdays="[1,2,3,4,5]"
-          @click:time="result => selectedDate = result"
+          @click:time="clickTime"
         >
           <!-- the events at the top (all-day) -->
           <template
@@ -34,7 +34,7 @@
                 v-if="!event.time"
                 :key="event.title"
                 class="my-event"
-                @click="open(event)"
+                @click.stop="selectEvent(event)"
                 v-html="event.title"
               ></div>
             </template>
@@ -52,7 +52,7 @@
                 :key="index"
                 :style="{ top: timeToY(event.time) + 'px', height: minutesToPixels(event.duration) + 'px' }"
                 class="my-event with-time"
-                @click="selectEvent(event)"
+                @click.stop="selectEvent(event)"
                 v-html="event.title"
               ></div>
             </template>
@@ -75,20 +75,41 @@
         Next
         <v-icon right dark>keyboard_arrow_right</v-icon>
       </v-btn>
-      <br>
-       {{ selectedDate }}
     </v-flex>
 
     <v-navigation-drawer
-      v-if="eventSelected && isAdmin"
+      v-if="(eventSelected || addingEvent) && !isAnonymous"
       v-model="right"
       right
+      clipped
       fixed
       app
     >
-      <pre>
-        <code>{{eventSelected}}</code>
-      </pre>
+      <v-flex style="padding-top: 25px; padding-left: 25px;" v-if="eventSelected">
+        <div v-for="([key, value]) in Object.entries(eventSelected)" style="padding-bottom: 10px;">
+          <b>{{ capitalize(key) }}:</b> {{ value }}
+        </div>
+      </v-flex>
+
+      <v-btn @click="cancelAppointment(eventSelected)"
+             v-if="eventSelected"
+             color="error"
+             style="margin-left: 25px; margin-top: 15px;">
+        Cancel Appointment
+      </v-btn>
+
+      <v-flex style="padding-top: 25px; padding-left: 25px;" v-if="addingEvent">
+        <div v-for="([key, value]) in Object.entries(addingEvent)" style="padding-bottom: 10px;">
+          <b>{{ capitalize(key) }}:</b> {{ value }}
+        </div>
+      </v-flex>
+
+      <v-btn @click="addAppointment(addingEvent)"
+             v-if="addingEvent"
+             color="success"
+             style="margin-left: 25px; margin-top: 15px;">
+        Add Appointment
+      </v-btn>
     </v-navigation-drawer>
   </v-flex>
 </template>
@@ -101,6 +122,7 @@ export default {
   props: ['doctor', 'id'],
   data: () => ({
     selectedDate: null,
+    addingEvent: undefined,
     right: true,
     start: new Date().toISOString().split('T')[0],
     events: [
@@ -109,26 +131,26 @@ export default {
         date: '2019-03-21',
         time: '09:00',
         duration: 45,
-        patientMetadata: 'NEED TO FILL'
+        patientId: 'NEED TO FILL'
       },
       {
         title: 'Booked',
         date: '2019-03-22',
         time: '14:00',
         duration: 45,
-        patientMetadata: 'NEED TO FILL'
+        patientId: 'NEED TO FILL'
       },
       {
         title: 'Booked',
         date: '2019-03-18',
         time: '09:00',
         duration: 45,
-        patientMetadata: 'NEED TO FILL'
+        patientId: 'NEED TO FILL'
       },
       {
         title: 'Doctor Day off',
         date: '2019-03-19',
-        patientMetadata: 'NEED TO FILL'
+        patientId: 'NEED TO FILL'
       }
     ],
     intervals: {
@@ -141,19 +163,70 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      isAdmin: 'isAdmin'
+      isAnonymous: 'isAnonymous'
     }),
 
     // convert the list of events into a map of lists keyed by date
     eventsMap () {
       const map = {}
-      this.events.forEach(e => (map[e.date] = map[e.date] || []).push(e))
+      let events = this.addingEvent ? [...this.events, this.addingEvent] : this.events
+      events.forEach(e => (map[e.date] = map[e.date] || []).push(e))
       return map
     }
   },
   methods: {
+    capitalize (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    },
+
+    clickTime (clickedTime) {
+      // If eevent selected
+      if (this.eventSelected) {
+        this.eventSelected = undefined
+        return
+      }
+
+      // Time and date
+      this.selectedDate = clickedTime
+      const { date, time, year, month, day, hour, minute, past } = clickedTime
+      
+      // Not worried about past dates
+      if (past) return
+
+      this.addingEvent = {
+        title: 'Booking',
+        date: date,
+        time: time,
+        duration: 45
+      }
+
+      // { 
+      //   "date": "2019-03-25",
+      //   "time": "14:16", 
+      //   "year": 2019, 
+      //   "month": 3, 
+      //   "day": 25,
+      //   "weekday": 1,
+      //   "hour": 14, 
+      //   "minute": 16, 
+      //   "hasDay": true,
+      //   "hasTime": true,
+      //   "past": true,
+      //   "present": false,
+      //   "future": false 
+      //   } 
+    },
+
+    addAppointment (event) {
+        // this.$api.addAppointment (patientId, doctorId, time)
+    },
+
+    cancelAppointment (event) {
+        // this.$api.cancelAppointment (patientId, doctorId, time)
+    },
+
     selectEvent (event) {
-      if (this.eventSelected === event) {
+      if (this.eventSelected === event || event === this.addingEvent) {
         this.eventSelected = null
       } else {
         this.eventSelected = event

@@ -42,14 +42,31 @@ export default {
   }),
 
   methods: {
-    login () {
+    async login () {
       if (this.$refs.form.validate()) {
-        if (this.username === 'admin' && this.password === 'admin') {
+        let user = await this.$api.loginUser(this.username, this.password)
+
+        if (this.username === 'r' && this.password === 'r') {
+          this.$store.commit('SET_USER', {
+            role: 'receptionist'
+          })
+          this.$router.push('/')
+        }
+
+        if (this.username === 'a' && this.password === 'a') {
           this.$store.commit('SET_USER', {
             role: 'admin'
           })
           this.$router.push('/')
         }
+
+        if (this.username === 'd' && this.password === 'd') {
+          this.$store.commit('SET_USER', {
+            role: 'doctor'
+          })
+          this.$router.push('/')
+        }
+        console.log(user)
       }
     }
   }
