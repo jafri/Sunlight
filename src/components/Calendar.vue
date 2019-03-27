@@ -99,8 +99,32 @@
       </v-btn>
 
       <v-flex style="padding-top: 25px; padding-left: 25px;" v-if="addingEvent">
-        <div v-for="([key, value]) in Object.entries(addingEvent)" style="padding-bottom: 10px;">
-          <b>{{ capitalize(key) }}:</b> {{ value }}
+        <div style="padding-bottom: 10px;">
+          <v-text-field
+            v-model="addingEvent.title"
+            label="Title"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="addingEvent.date"
+            label="Date"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="addingEvent.time"
+            label="Time"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="addingEvent.duration"
+            label="Duration"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="addingEvent.patientId"
+            label="Patient ID"
+            required
+          ></v-text-field>
         </div>
       </v-flex>
 
