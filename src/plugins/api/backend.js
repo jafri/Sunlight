@@ -1,14 +1,5 @@
 import axios from 'axios'
 
-function queryParams (params) {
-  const entries = []
-  for (const key of Object.keys(params)) {
-    const value = params[key]
-    if (value !== undefined) { entries.push(encodeURIComponent(key) + '=' + encodeURIComponent(value)) }
-  }
-  return entries.join('&')
-}
-
 export default class API {
   constructor () {
     this.api = axios.create({
@@ -38,5 +29,13 @@ export default class API {
 
   cancelAppointment (patientId, doctorId, time) {
     return this.api.get(`editDoctorSchedule/add?time=${time}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
+  }
+
+  addDoctor (username, password, phone, name, departmentId, isSurgeon) {
+    return this.api.get(`editUser/addDoctor?username=${username}&password=${password}&phone=${phone}&name=${name}&departmentID=${departmentId}&isSurgeon=${isSurgeon}`).then(result => result.data)
+  }
+
+  addReceptionist (username, password, phone, name, departmentId, isSurgeon) {
+    return this.api.get(`editUser/addReceptionist?username=${username}&password=${password}&phone=${phone}&name=${name}&departmentID=${departmentId}`).then(result => result.data)
   }
 }

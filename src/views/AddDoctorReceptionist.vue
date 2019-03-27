@@ -4,7 +4,6 @@
     v-model="valid"
     lazy-validation
   >
-  
     <v-radio-group v-model="selectedType">
       <v-radio
         v-for="n in typesOfUsers"
@@ -14,19 +13,61 @@
       ></v-radio>
     </v-radio-group>
 
-    <v-text-field
-      v-model="username"
-      :counter="12"
-      :rules="usernameRules"
-      label="Username"
-      required
-    ></v-text-field>
-
-    <v-text-field
-      v-model="password"
-      label="Password"
-      required
-    ></v-text-field>
+    <div v-if="selectedType === 'doctor'">
+      <v-text-field
+        v-model="username"
+        label="Username"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        label="Password"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="phone"
+        label="Phone"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="name"
+        label="Name"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="departmentId"
+        label="Department ID"
+        required
+      ></v-text-field>
+      <v-checkbox v-model="isSurgeon" label="Is Surgeon"></v-checkbox>
+    </div>
+    <div v-if="selectedType === 'receptionist'">
+      <v-text-field
+        v-model="username"
+        label="Username"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="password"
+        label="Password"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="phone"
+        label="Phone"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="name"
+        label="Name"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="departmentId"
+        label="Department ID"
+        required
+      ></v-text-field>
+    </div>
 
     <v-btn
       :disabled="!valid"
@@ -44,18 +85,26 @@ export default {
   data: () => ({
     valid: true,
     username: '',
-    usernameRules: [
-      v => !!v || 'Username is required',
-      v => (v && v.length <= 12) || 'Username must be less than 12 characters'
-    ],
     password: '',
+    phone: '',
+    name: '',
+    departmentId: '',
+    isSurgeon: false,
     selectedType: 'doctor',
     typesOfUsers: ['doctor', 'receptionist']
   }),
 
   methods: {
     add () {
-      // TODO
+      if (this.selectedType === 'doctor') {
+        if (this.username && this.password && this.phone && this.name && this.departmentId && this.isSurgeon) {
+          this.$api.addDoctor(this.username, this.password, this.phone, this.name, this.departmentId, this.isSurgeon)
+        }
+      } else {
+        if (this.username && this.password && this.phone && this.name && this.departmentId) {
+          this.$api.addReceptionist(this.username, this.password, this.phone, this.name, this.departmentId)
+        }
+      }
     }
   }
 }

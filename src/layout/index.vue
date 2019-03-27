@@ -40,19 +40,19 @@
         <v-list-tile-title>Login</v-list-tile-title>
       </v-list-tile>
 
-      <v-list-tile @click="logout" v-if="!isAnonymous">
-        <v-list-tile-action>
-          <v-icon>account_circle</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-title>Logout</v-list-tile-title>
-      </v-list-tile>
-
       <v-list-tile @click="$router.push('/add')" v-if="isAdmin">
         <v-list-tile-action>
           <v-icon>account_circle</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>Add Doctor/Receptionist</v-list-tile-title>
       </v-list-tile>  
+
+      <v-list-tile @click="logout" v-if="!isAnonymous">
+        <v-list-tile-action>
+          <v-icon>account_circle</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-title>Logout</v-list-tile-title>
+      </v-list-tile>
     </v-list>
   </v-navigation-drawer>
 
