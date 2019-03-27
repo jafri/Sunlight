@@ -205,7 +205,7 @@ export default {
 
     clickTime (clickedTime) {
       // If eevent selected
-      if (this.eventSelected) {
+      if (this.eventSelected || this.isAnonymous) {
         this.eventSelected = undefined
         return
       }
