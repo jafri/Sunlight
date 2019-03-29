@@ -148,7 +148,7 @@ export default {
     selectedDate: null,
     addingEvent: undefined,
     right: true,
-    start: new Date().toISOString().split('T')[0],
+    start: moment().weekday(1).format('YYYY-MM-DD HH:mm:ss'),
     events: [
       {
         title: 'Booked',
@@ -242,10 +242,13 @@ export default {
     },
 
     addAppointment (event) {
+        console.log('Add', event)
+
         // this.$api.addAppointment (patientId, doctorId, time)
     },
 
     cancelAppointment (event) {
+      console.log('Cancel', event)
         // this.$api.cancelAppointment (patientId, doctorId, time)
     },
 
@@ -261,15 +264,24 @@ export default {
       const startTime = moment(this.start).format('YYYY-MM-DD HH:mm:ss')
       const endTime = moment(this.start).add(7, 'd').format('YYYY-MM-DD HH:mm:ss')
       const { schedule } = await this.$api.getDoctorSchedule(this.id, startTime, endTime)
-      console.log(schedule)
+      console.log('Schedule', schedule)
+
+      this.events = schedule.map(sched => {
+        const [date, time] = sched.time.split(' ')
+        if (date) sched.date = date
+        if (time) sched.time = time
+        return sched
+      })
     },
 
     nextWeek () {
       this.start = moment(this.start).add(7, 'd').toISOString().split('T')[0]
+      this.fetchData()
     },
 
     lastWeek () {
       this.start = moment(this.start).subtract(7, 'd').toISOString().split('T')[0]
+      this.fetchData()
     }
   },
 

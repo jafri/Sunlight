@@ -26,6 +26,8 @@
     >
       Login
     </v-btn>
+
+    <span v-if="error" style="color: red; padding-top: 15px;">{{error}}</span>
   </v-form>
 </template>
 
@@ -34,6 +36,7 @@ export default {
   data: () => ({
     valid: true,
     username: '',
+    error: '',
     usernameRules: [
       v => !!v || 'Username is required',
       v => (v && v.length <= 12) || 'Username must be less than 12 characters'
@@ -43,30 +46,20 @@ export default {
 
   methods: {
     async login () {
+      this.error = ''
+
       if (this.$refs.form.validate()) {
-        let user = await this.$api.loginUser(this.username, this.password)
+        let { role, loginValid } = await this.$api.loginUser(this.username, this.password)
 
-        if (this.username === 'r' && this.password === 'r') {
+        console.log(role, loginValid)
+        if (loginValid) {
           this.$store.commit('SET_USER', {
-            role: 'receptionist'
+            role: role
           })
           this.$router.push('/')
+        } else {
+          this.error = 'Invalid username/pass combo.'
         }
-
-        if (this.username === 'a' && this.password === 'a') {
-          this.$store.commit('SET_USER', {
-            role: 'admin'
-          })
-          this.$router.push('/')
-        }
-
-        if (this.username === 'd' && this.password === 'd') {
-          this.$store.commit('SET_USER', {
-            role: 'doctor'
-          })
-          this.$router.push('/')
-        }
-        console.log(user)
       }
     }
   }

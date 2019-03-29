@@ -62,11 +62,6 @@
         label="Name"
         required
       ></v-text-field>
-      <v-text-field
-        v-model="departmentId"
-        label="Department ID"
-        required
-      ></v-text-field>
     </div>
 
     <v-btn
@@ -101,8 +96,8 @@ export default {
           this.$api.addDoctor(this.username, this.password, this.phone, this.name, this.departmentId, this.isSurgeon)
         }
       } else {
-        if (this.username && this.password && this.phone && this.name && this.departmentId) {
-          this.$api.addReceptionist(this.username, this.password, this.phone, this.name, this.departmentId)
+        if (this.username && this.password && this.phone && this.name) {
+          this.$api.addReceptionist(this.username, this.password, this.phone, this.name)
         }
       }
     }

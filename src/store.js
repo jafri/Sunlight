@@ -32,19 +32,19 @@ export default new Vuex.Store({
 
   getters: {
     isAdmin (state) {
-      return state.user.role === 'admin'
+      return state.user.role === 'Admin'
     },
 
     isDoctor (state) {
-      return state.user.role === 'doctor'
+      return state.user.role === 'Doctor'
     },
 
     isReceptionist (state) {
-      return state.user.role === 'receptionist'
+      return state.user.role === 'Receptionist'
     },
 
     isAnonymous (state) {
-      return state.user.role === 'anonymous'
+      return state.user.role === 'Anonymous'
     }
   }
 })
