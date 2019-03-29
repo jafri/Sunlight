@@ -244,7 +244,7 @@ export default {
     addAppointment (event) {
         console.log('Add', event)
 
-        // this.$api.addAppointment (patientId, doctorId, time)
+        this.$api.addAppointment (event.title, 'empty', `${event.date} ${event.time}`, event.duration, event.patientId, this.id )
     },
 
     cancelAppointment (event) {
