@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const getDefaultState = () => ({
   user: {
-    role: 'anonymous'
+    role: 'Anonymous'
   }
 })
 
@@ -16,7 +16,7 @@ export default new Vuex.Store({
   actions: {
     LOGOUT ({ commit }) {
       commit('RESET_USER')
-      router.push('/')
+      router.push('/login')
     }
   },
 

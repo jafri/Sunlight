@@ -24,11 +24,11 @@ export default class API {
   }
 
   addAppointment (title, description, time, duration, patientId, doctorId) {
-    return this.api.get(`editDoctorSchedule/add?Title=${title}&description=${description}&time=${time}&Duration=${duration}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
+    return this.api.get(`editSchedule/add?Title=${title}&description=${description}&time=${time}&Duration=${duration}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
   }
 
   cancelAppointment (patientId, doctorId, time) {
-    return this.api.get(`editDoctorSchedule/add?time=${time}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
+    return this.api.get(`editSchedule/drop?time=${time}&PatientID=${patientId}&DoctorID=${doctorId}`).then(result => result.data)
   }
 
   addDoctor (username, password, phone, name, departmentId, isSurgeon) {

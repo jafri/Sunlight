@@ -72,6 +72,10 @@
     >
       Add {{ selectedType }}
     </v-btn>
+
+    <span v-if="success" style="color: green;">
+      {{ success }}
+    </span>
   </v-form>
 </template>
 
@@ -84,20 +88,31 @@ export default {
     phone: '',
     name: '',
     departmentId: '',
+    success: '',
     isSurgeon: false,
     selectedType: 'doctor',
     typesOfUsers: ['doctor', 'receptionist']
   }),
 
   methods: {
-    add () {
+    async add () {
+      this.success = ''
+
       if (this.selectedType === 'doctor') {
         if (this.username && this.password && this.phone && this.name && this.departmentId && this.isSurgeon) {
-          this.$api.addDoctor(this.username, this.password, this.phone, this.name, this.departmentId, this.isSurgeon)
+          let { Message } = await this.$api.addDoctor(this.username, this.password, this.phone, this.name, this.departmentId, this.isSurgeon)
+
+          if (Message === 'Doctor was successfully added') {
+            this.success = Message
+          }
         }
       } else {
         if (this.username && this.password && this.phone && this.name) {
-          this.$api.addReceptionist(this.username, this.password, this.phone, this.name)
+          let { Message } = await this.$api.addReceptionist(this.username, this.password, this.phone, this.name)
+
+          if (Message === 'Receptionist was successfully added') {
+            this.success = Message
+          }
         }
       }
     }

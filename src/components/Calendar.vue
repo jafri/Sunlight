@@ -241,10 +241,9 @@ export default {
       //   } 
     },
 
-    addAppointment (event) {
-        console.log('Add', event)
-
-        this.$api.addAppointment (event.title, 'empty', `${event.date} ${event.time}`, event.duration, event.patientId, this.id )
+    async addAppointment (event) {
+      console.log('Add', event)
+      await this.$api.addAppointment (event.title, 'empty', `${event.date} ${event.time}`, event.duration, event.patientId, this.id )
     },
 
     cancelAppointment (event) {
