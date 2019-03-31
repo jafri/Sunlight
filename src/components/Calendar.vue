@@ -254,7 +254,7 @@ export default {
       const { Message } = await this.$api.cancelAppointment(event.patientID, this.id, `${event.date} ${event.time}`)
 
       if (Message === "Appointment was successfully dropped") {
-        this.events = this.events.filter(oldEvent => oldEvent.patientID !== event.patientID && `${oldEvent.date} ${oldEvent.time}` !== `${event.date} ${event.time}`)
+        this.events = this.events.filter(oldEvent => oldEvent.patientID !== event.patientID || `${oldEvent.date} ${oldEvent.time}` !== `${event.date} ${event.time}`)
         this.eventSelected = undefined
       }
     },
