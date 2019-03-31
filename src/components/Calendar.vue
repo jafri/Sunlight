@@ -121,7 +121,7 @@
             required
           ></v-text-field>
           <v-text-field
-            v-model="addingEvent.patientId"
+            v-model="addingEvent.patientID"
             label="Patient ID"
             required
           ></v-text-field>
@@ -148,33 +148,33 @@ export default {
     selectedDate: null,
     addingEvent: undefined,
     right: true,
-    start: moment().weekday(1).format('YYYY-MM-DD HH:mm:ss'),
+    start: moment().weekday(1).hour(0).minute(0).format('YYYY-MM-DD HH:mm:ss'),
     events: [
       {
         title: 'Booked',
         date: '2019-03-21',
         time: '09:00',
         duration: 45,
-        patientId: 'NEED TO FILL'
+        patientID: 'NEED TO FILL'
       },
       {
         title: 'Booked',
         date: '2019-03-22',
         time: '14:00',
         duration: 45,
-        patientId: 'NEED TO FILL'
+        patientID: 'NEED TO FILL'
       },
       {
         title: 'Booked',
         date: '2019-03-18',
         time: '09:00',
         duration: 45,
-        patientId: 'NEED TO FILL'
+        patientID: 'NEED TO FILL'
       },
       {
         title: 'Doctor Day off',
         date: '2019-03-19',
-        patientId: 'NEED TO FILL'
+        patientID: 'NEED TO FILL'
       }
     ],
     intervals: {
@@ -242,13 +242,21 @@ export default {
     },
 
     async addAppointment (event) {
-      console.log('Add', event)
-      await this.$api.addAppointment (event.title, 'empty', `${event.date} ${event.time}`, event.duration, event.patientId, this.id )
+      const { Message } = await this.$api.addAppointment(event.title, 'empty', `${event.date} ${event.time}`, event.duration, event.patientID, this.id )
+      if (Message === "Appointment was successfully added") {
+        this.events.push(this.addingEvent)
+        this.addingEvent = undefined
+      }
     },
 
-    cancelAppointment (event) {
-      console.log('Cancel', event)
-        // this.$api.cancelAppointment (patientId, doctorId, time)
+    async cancelAppointment (event) {
+      console.log('Cancel:', event)
+      const { Message } = await this.$api.cancelAppointment(event.patientID, this.id, `${event.date} ${event.time}`)
+
+      if (Message === "Appointment was successfully dropped") {
+        this.events = this.events.filter(oldEvent => oldEvent.patientID !== event.patientID && `${oldEvent.date} ${oldEvent.time}` !== `${event.date} ${event.time}`)
+        this.eventSelected = undefined
+      }
     },
 
     selectEvent (event) {
