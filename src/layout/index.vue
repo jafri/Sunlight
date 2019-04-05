@@ -16,7 +16,7 @@
   <v-navigation-drawer
     fixed
     app
-    value="true"
+    :value="drawer"
   >
     <v-list class="pt-0">
       <v-list-tile @click="$router.push('/')">
@@ -25,13 +25,6 @@
         </v-list-tile-action>
         <v-list-tile-title>Search Doctors</v-list-tile-title>
       </v-list-tile>
-
-      <!-- <v-list-tile @click="$router.push('/calendar')">
-        <v-list-tile-action>
-          <v-icon>account_circle</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-title>Doctor Schedule</v-list-tile-title>
-      </v-list-tile> -->
 
       <v-list-tile @click="$router.push('/login')" v-if="isAnonymous">
         <v-list-tile-action>
@@ -85,7 +78,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   data: () => ({
-    drawer: null,
+    drawer: true,
     drawerRight: null,
     right: false
   }),
