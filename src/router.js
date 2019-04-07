@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Calendar from './views/Calendar.vue'
 import AddDoctorReceptionist from './views/AddDoctorReceptionist.vue'
+import RemoveUser from './views/RemoveUser.vue'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/add',
       name: 'AddDoctorReceptionist',
       component: AddDoctorReceptionist
+    },
+    {
+      path: '/remove',
+      name: 'Remove User',
+      component: RemoveUser
     },
     {
       path: '/login',

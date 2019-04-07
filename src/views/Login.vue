@@ -47,12 +47,14 @@ export default {
       this.error = ''
 
       if (this.$refs.form.validate()) {
-        let { role, loginValid } = await this.$api.loginUser(this.username, this.password)
+        let { role, loginValid, id } = await this.$api.loginUser(this.username, this.password)
 
-        console.log(role, loginValid)
+        
+        console.log(role, loginValid, id)
         if (loginValid) {
           this.$store.commit('SET_USER', {
-            role: role
+            role: role,
+            id: id
           })
           this.$router.push('/')
         } else {

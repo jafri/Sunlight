@@ -19,6 +19,14 @@ export default class API {
     return this.api.get(`schedule/bounded?id=${id}&start=${startTime}&end=${endTime}`).then(result => result.data)
   }
 
+  getAllUsers () {
+    return this.api.get(`editUser/getAllUsers`).then(result => result.data)
+  }
+
+  removeUser (id) {
+    return this.api.get(`editUser/removeUser?id=${id}`).then(result => result.data)
+  }
+
   loginUser (username, password) {
     return this.api.get(`loginUser?username=${username}&password=${password}`).then(result => result.data)
   }
@@ -35,7 +43,7 @@ export default class API {
     return this.api.get(`editUser/addDoctor?username=${username}&password=${password}&phone=${phone}&name=${name}&departmentID=${departmentId}&isSurgeon=${isSurgeon}`).then(result => result.data)
   }
 
-  addReceptionist (username, password, phone, name, departmentId, isSurgeon) {
-    return this.api.get(`editUser/addReceptionist?username=${username}&password=${password}&phone=${phone}&name=${name}&departmentID=${departmentId}`).then(result => result.data)
+  addReceptionist (username, password, phone, name) {
+    return this.api.get(`editUser/addReceptionist?username=${username}&password=${password}&phone=${phone}&name=${name}`).then(result => result.data)
   }
 }

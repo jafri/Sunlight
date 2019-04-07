@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -190,6 +190,10 @@ export default {
       isAnonymous: 'isAnonymous'
     }),
 
+    ...mapState({
+      user: state => state.user
+    }),
+
     // convert the list of events into a map of lists keyed by date
     eventsMap () {
       const map = {}
@@ -204,6 +208,9 @@ export default {
     },
 
     clickTime (clickedTime) {
+      // Make sure doctor can only edit his own appointments
+      if (this.user.role === 'Doctor' && this.user.id !== this.id) return
+
       // If eevent selected
       if (this.eventSelected || this.isAnonymous) {
         this.eventSelected = undefined
@@ -242,6 +249,9 @@ export default {
     },
 
     async addAppointment (event) {
+      // Make sure doctor can only edit his own appointments
+      if (this.user.role === 'Doctor' && this.user.id !== this.id) return
+
       const { Message } = await this.$api.addAppointment(event.title, 'empty', `${event.date} ${event.time}`, event.duration, event.patientID, this.id )
       if (Message === "Appointment was successfully added") {
         this.events.push(this.addingEvent)
@@ -250,6 +260,9 @@ export default {
     },
 
     async cancelAppointment (event) {
+      // Make sure doctor can only edit his own appointments
+      if (this.user.role === 'Doctor' && this.user.id !== this.id) return
+
       console.log('Cancel:', event)
       const { Message } = await this.$api.cancelAppointment(event.patientID, this.id, `${event.date} ${event.time}`)
 
@@ -260,6 +273,10 @@ export default {
     },
 
     selectEvent (event) {
+      // Make sure doctor can only edit his own appointments
+      if (this.user.role === 'Doctor' && this.user.id !== this.id) return
+
+
       if (this.eventSelected === event || event === this.addingEvent) {
         this.eventSelected = null
       } else {

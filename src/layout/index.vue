@@ -21,7 +21,7 @@
     <v-list class="pt-0">
       <v-list-tile @click="$router.push('/')">
         <v-list-tile-action>
-          <v-icon>home</v-icon>
+          <v-icon>search</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>Search Doctors</v-list-tile-title>
       </v-list-tile>
@@ -40,9 +40,16 @@
         <v-list-tile-title>Add Doctor/Receptionist</v-list-tile-title>
       </v-list-tile>  
 
+      <v-list-tile @click="$router.push('/remove')" v-if="isAdmin">
+        <v-list-tile-action>
+          <v-icon>remove_circle</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-title>Remove User</v-list-tile-title>
+      </v-list-tile>  
+
       <v-list-tile @click="logout" v-if="!isAnonymous">
         <v-list-tile-action>
-          <v-icon>account_circle</v-icon>
+          <v-icon>close</v-icon>
         </v-list-tile-action>
         <v-list-tile-title>Logout</v-list-tile-title>
       </v-list-tile>
