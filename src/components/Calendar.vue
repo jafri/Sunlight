@@ -120,11 +120,14 @@
             label="Duration"
             required
           ></v-text-field>
-          <v-text-field
-            v-model="addingEvent.patientID"
-            label="Patient ID"
-            required
-          ></v-text-field>
+          <md-field>
+            <label for="patient">Patient</label>
+            <md-select v-model="addingEvent.patientID" name="patient" id="movie">
+              <md-option value="1">Jane Doe</md-option>
+              <md-option value="2">John Doe</md-option>
+              <md-option value="3">Xthulum Zuian</md-option>
+            </md-select>
+          </md-field>
         </div>
       </v-flex>
 

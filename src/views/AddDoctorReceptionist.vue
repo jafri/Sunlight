@@ -34,11 +34,14 @@
         label="Name"
         required
       ></v-text-field>
-      <v-text-field
-        v-model="departmentId"
-        label="Department ID"
-        required
-      ></v-text-field>
+      <md-field>
+        <label for="department">Department</label>
+        <md-select v-model="departmentId" name="department" id="department">
+          <md-option value="1">Cardiology</md-option>
+          <md-option value="2">Surgery</md-option>
+          <md-option value="3">Orthopedics</md-option>
+        </md-select>
+      </md-field>
       <v-checkbox v-model="isSurgeon" label="Is Surgeon"></v-checkbox>
     </div>
     <div v-if="selectedType === 'receptionist'">
@@ -119,3 +122,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.md-select-menu {
+  background-color: white !important;
+}
+</style>
